@@ -1,5 +1,3 @@
-I could be wrong, stupid, dumb, crazy, schizophrenic, borderline, autistic, etc. I don’t know.
-
 I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- infinite loop. (i.e. I think I think I think… or alternatively: for(;;){I think;}
 
 God breaks the aforementioned illogical infinite loop. (i.e. axiomatically, the mind is but a receiver/computer for divine intellect).
