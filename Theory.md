@@ -2,7 +2,7 @@ Reddit threads:
 
 https://www.reddit.com/r/mensa/s/JHCanTNHaM
 https://www.reddit.com/r/SimulationTheory/s/aHCvQXTDY6
-
+https://www.reddit.com/r/Jung/s/ReB7S4iHPL
 https://www.reddit.com/r/mensa/s/4awYcmteNX
 
 I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- infinite loop. (i.e. I think I think I think… or alternatively: for(;;){I think;}
