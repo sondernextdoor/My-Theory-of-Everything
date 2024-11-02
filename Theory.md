@@ -4,6 +4,9 @@ https://www.reddit.com/r/mensa/s/JHCanTNHaM
 https://www.reddit.com/r/SimulationTheory/s/aHCvQXTDY6
 https://www.reddit.com/r/Jung/s/ReB7S4iHPL
 https://www.reddit.com/r/mensa/s/4awYcmteNX
+https://www.reddit.com/r/QuantumImmortality/s/HKZ8gNDolH
+https://www.reddit.com/r/QuantumPhysics/s/Za7Aqv6va8
+https://www.reddit.com/r/thinkatives/s/QoqitAuwN6
 
 I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- infinite loop. (i.e. I think I think I think… or alternatively: for(;;){I think;}
 
