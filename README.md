@@ -6,7 +6,7 @@ In considering the limits of human knowledge, we confront an unavoidable truth: 
 
 I cannot fathom an organic-reality that is as ours is; in my eyes, we cannot have created society on our own, nor can we even do simple things such as drive motor-vehicles on the roadways and walk in straight, algorithmically-determined pathways, etc., for these are tasks that require a profound understanding of mathematics that most people—maybe even all people—cannot consciously calculate or understand; instead, we give credit to the subconscious part of our brain, but what exactly is that? **Are we really so arrogant that it blinds us?**
 
-This subconscious, which seems to govern our coordinated behaviors, our instincts, and even our creativity, remains a mystery; I do not have the answers as to its intellect or makeup; however, thinkers like Tesla, Einstein, and Von Neumann reportedly suspected that the brain is a receiver of data, something that aligns not just with my ideology, but with axioms I’ve perceived as well — axioms that the aforementioned scientists were well aware of, I suspect (based on certain heuristics they employed).
+This subconscious, which seems to govern our coordinated behaviors, our instincts, and even our creativity, remains a mystery; I do not have the answers as to its exact intellect or makeup; however, thinkers like Tesla, Einstein, and Von Neumann reportedly suspected that the brain is a receiver of data, something that aligns not just with my ideology, but with axioms I’ve perceived as well — axioms that the aforementioned scientists were well aware of, I suspect (based on certain heuristics they employed).
 
 The source of knowledge lies beyond us, in a larger, intelligent cosmos.
 
