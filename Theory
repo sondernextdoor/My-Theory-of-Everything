@@ -8,6 +8,7 @@ https://www.reddit.com/r/QuantumImmortality/s/HKZ8gNDolH
 https://www.reddit.com/r/QuantumPhysics/s/Za7Aqv6va8
 https://www.reddit.com/r/thinkatives/s/QoqitAuwN6
 https://www.reddit.com/r/singularity/s/y5ES1GaKkD
+https://www.reddit.com/r/thinkatives/s/PeCJtnNeLp
 https://www.reddit.com/r/thinkatives/s/svqOSRMPQt
 https://www.reddit.com/r/thinkatives/s/WQpRcPipP2
 https://www.reddit.com/r/HypotheticalPhysics/s/XFekKdU5AM
