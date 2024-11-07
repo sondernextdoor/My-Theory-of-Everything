@@ -12,6 +12,7 @@ https://www.reddit.com/r/thinkatives/s/PeCJtnNeLp
 https://www.reddit.com/r/thinkatives/s/svqOSRMPQt
 https://www.reddit.com/r/thinkatives/s/WQpRcPipP2
 https://www.reddit.com/r/HypotheticalPhysics/s/XFekKdU5AM
+https://www.reddit.com/r/HypotheticalPhysics/s/lhbZaD6E5Z
 
 I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- infinite loop. (i.e. I think I think I think… or alternatively: for(;;){I think;}
 
