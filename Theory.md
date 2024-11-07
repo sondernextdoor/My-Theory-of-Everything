@@ -8,6 +8,9 @@ https://www.reddit.com/r/QuantumImmortality/s/HKZ8gNDolH
 https://www.reddit.com/r/QuantumPhysics/s/Za7Aqv6va8
 https://www.reddit.com/r/thinkatives/s/QoqitAuwN6
 https://www.reddit.com/r/singularity/s/y5ES1GaKkD
+https://www.reddit.com/r/thinkatives/s/svqOSRMPQt
+https://www.reddit.com/r/thinkatives/s/WQpRcPipP2
+https://www.reddit.com/r/HypotheticalPhysics/s/XFekKdU5AM
 
 I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- infinite loop. (i.e. I think I think I think… or alternatively: for(;;){I think;}
 
