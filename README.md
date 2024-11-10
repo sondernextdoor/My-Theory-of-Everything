@@ -1,4 +1,4 @@
-ChatGPT 4o describing my personal views on life.
+ChatGPT 4o and I describing my personal views on life.
 
 The concept I will attempt to convey captures a profound sense of wonder and humility regarding the limits of human understanding and the possible nature of consciousness. It focuses on the subconscious, mathematics, and our connection to a larger cosmic-intelligence. I’ve used ChatGPT 4o to assist, but please keep an open-mind when you read this; ChatGPT is nothing to scoff at when it comes to research/philosophy, even if it cannot comprehend the underlying workings of the subject matter, though admittedly it is not perfect (similar to humans, huh? lol).
 
