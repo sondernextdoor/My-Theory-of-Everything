@@ -19,7 +19,7 @@ I know nothing; I trust God/Yahweh/Allah (etc.), I think; I think; I think. <- i
 
 God breaks the aforementioned illogical infinite loop. (i.e. axiomatically, the mind is but a receiver/computer for divine intellect).
 
-Edit (11/2/24): The previous stuff is just a half-jokingly play on “I think, therefore I am.”, computability theory, and solipsism. You don’t think; you think you think you think you think… It’s a paradoxical universe with purposefully missing pieces for us to never find. Just my beliefs. I could be wrong.
+Edit (11/2/24): The previous stuff is just a half-jokingly play on “I think, therefore I am.”, computability theory, and solipsism. You don’t think; you think you think you think you think...(ad infinitum). It’s a paradoxical universe with purposefully missing pieces for us to never find. Just my beliefs. I could be wrong.
 
 Who is God? I don’t know. Maybe a super-intelligent brain that is a creator of its own universe—a self-referential intelligence capable of using mathematics to construct fundamental building blocks of reality. In this setup, the brain segments itself into areas of knowledge and ignorance, creating a world where parts of itself experience “darkness” or “not knowing.”
 
