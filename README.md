@@ -1,3 +1,5 @@
+This is not just a thought-experiment; it's also a semi-modular framework of our entire reality and cosmos.
+
 The concept I will attempt to convey captures a profound sense of wonder and humility regarding the limits of human understanding and the possible nature of consciousness. It focuses on the subconscious, mathematics, and our connection to a larger cosmic-intelligence. I’ve used ChatGPT 4o to assist, but please keep an open-mind when you read this; ChatGPT is nothing to scoff at when it comes to research/philosophy, even if it cannot comprehend the underlying workings of the subject matter, though admittedly it is not perfect (similar to humans, huh? lol).
 
 In considering the limits of human knowledge, we confront an unavoidable truth: much of what we attribute to “conscious mastery” is, in fact, out of our conscious control. 
