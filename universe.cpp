@@ -1816,6 +1816,881 @@ The code snippets above show how you can structure a massive HPC cosmic simulati
 		•	In actual HPC or research code, each of these files can be hundreds or thousands of lines, especially PDE stencils, HPC concurrency (halo exchange, GPU kernels), and advanced neural net or meta-learning loops.
 	•	You can replicate or extend each concept—like partial differential equations for magnetohydrodynamics, advanced gravitational physics, or subnuclear cross-sections for Earth collisions—and balloon the codebase to the “god-tier” scale you desire.
 
-This blueprint is the skeleton. You are now free to copy, paste, expand, and refine each subsystem (PDE stencils, domain decomposition logic, star/BH lifecycle, Earth’s particle collisions, HPC concurrency, etc.) to tens or hundreds of thousands of lines. That is entirely feasible if you fill in every method with domain-specific mathematics, HPC data structures, advanced error handling, parallel load balancing, GPU kernels, in-situ analysis, and more—thus achieving the truly “god-tier” HPC cosmic simulation codebase.
+This blueprint is the skeleton. You are now free to copy, paste, expand, and refine each subsystem (PDE stencils, domain decomposition logic, star/BH lifecycle, Earth’s particle collisions, HPC concurrency, etc.) to tens or hundreds of thousands of lines. That is entirely feasible if you fill in every method with domain-specific mathematics, HPC data structures, advanced error handling, parallel load balancing, GPU kernels, in-situ analysis, and more—thus achieving the truly “god-tier” HPC cosmic simulation codebase.what is this code: 
 
-Enjoy building your mega-scale HPC Universe simulation!
+
+analyze this code:
+
+/***********************************************************************************************
+ * universe.cpp
+ *
+ * A conceptual simulation in C++ that models:
+ *   - Multiple Dimensions, each with a discrete TunnelingField
+ *   - Simplistic quantum tunneling probabilities influenced by local barrier and decoherence
+ *   - A variety of Particle types (Quarks, Bosons, Leptons, Baryons, Aether)
+ *   - Basic “Beings” that evolve knowledge over time
+ *   - A rudimentary QuantumCommunication mechanism to transmit messages between Dimensions
+ *
+ * Disclaimer:
+ * This code is provided purely as an illustrative, academic demonstration. It does not claim to
+ * represent accurate physics or mathematical models of the universe. All parameter values and
+ * equations are conceptual in nature.
+ *
+ * Compilation (with optional OpenMP support):
+ *   g++ universe.cpp -fopenmp -o universe
+ ***********************************************************************************************/
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <memory>
+#include <random>
+#include <algorithm>
+#include <cmath>
+#include <map>
+#ifdef _OPENMP
+  #include <omp.h>
+#endif
+
+//------------------------------------------------------------
+// 0) Enumerations, Utility Functions, and Forward Declarations
+//------------------------------------------------------------
+
+enum class ParticleType {
+    QUARK,
+    BOSON,
+    AETHER,
+    LEPTON,   // For electrons, muons, etc.
+    BARYON,   // For protons, neutrons
+    UNKNOWN
+};
+
+enum class QuarkFlavor {
+    UP,
+    DOWN,
+    CHARM,
+    STRANGE,
+    TOP,
+    BOTTOM
+};
+
+enum class BosonType {
+    PHOTON,
+    GLUON,
+    W_PLUS,
+    W_MINUS,
+    Z,
+    HIGGS
+};
+
+enum class DimState {
+    HEAVEN,
+    HELL,
+    NORMAL,
+    PDE_REALM
+};
+
+// Clamping utility for numeric values
+double clampDouble(double val, double minVal, double maxVal) {
+    return std::max(minVal, std::min(maxVal, val));
+}
+
+// Forward declarations
+class Dimension;
+class MatrixEngine;
+
+//--------------------------------------------------------------------------
+// EquationRepository: A conceptual structure for PDE or quantum equations
+//--------------------------------------------------------------------------
+class EquationRepository {
+public:
+    EquationRepository() {
+        m_equations["default"]      = "E = m*c^2";
+        m_equations["pde_wave"]     = "phi_next = 2*phi - phi_prev + c^2*(laplacian(phi))";
+        m_equations["quantum_flux"] = "Psi' = i*(hbar)*laplacian(Psi) - U*Psi";
+    }
+
+    std::string getEquation(const std::string &name) const {
+        auto it = m_equations.find(name);
+        return (it != m_equations.end()) ? it->second : "UNDEFINED_EQUATION";
+    }
+
+    void setEquation(const std::string &name, const std::string &eq) {
+        m_equations[name] = eq;
+    }
+
+    void simulateEquation(const std::string &name) const {
+        // Placeholder for conceptual simulation
+        std::cout << "[EquationRepository] Simulating: " << getEquation(name) << "\n";
+    }
+
+private:
+    std::map<std::string, std::string> m_equations;
+};
+
+//--------------------------------------------------------------------
+// 1) Particle Base Class + Derived Quark, Boson, Aether, etc.
+//--------------------------------------------------------------------
+class Particle {
+public:
+    Particle(ParticleType type, double mass, double charge, double spin,
+             double x=0.0, double y=0.0, double z=0.0,
+             double px=0.0, double py=0.0, double pz=0.0)
+    : m_type(type),
+      m_mass(mass),
+      m_charge(charge),
+      m_spin(spin),
+      m_x(x), m_y(y), m_z(z),
+      m_px(px), m_py(py), m_pz(pz)
+    { }
+
+    virtual ~Particle() = default;
+
+    // Basic classical update
+    virtual void update(double dt) {
+        double vx = (m_mass > 0.0) ? (m_px / m_mass) : 0.0;
+        double vy = (m_mass > 0.0) ? (m_py / m_mass) : 0.0;
+        double vz = (m_mass > 0.0) ? (m_pz / m_mass) : 0.0;
+
+        m_x += vx * dt;
+        m_y += vy * dt;
+        m_z += vz * dt;
+    }
+
+    // Accessors
+    ParticleType type() const { return m_type; }
+    double mass()      const { return m_mass; }
+    double charge()    const { return m_charge; }
+    double spin()      const { return m_spin; }
+
+    double x()   const { return m_x; }
+    double y()   const { return m_y; }
+    double z()   const { return m_z; }
+    double px()  const { return m_px; }
+    double py()  const { return m_py; }
+    double pz()  const { return m_pz; }
+
+    void addMomentum(double dpx, double dpy, double dpz) {
+        m_px += dpx;
+        m_py += dpy;
+        m_pz += dpz;
+    }
+
+    virtual std::string info() const {
+        return "ParticleBase";
+    }
+
+protected:
+    ParticleType m_type;
+    double       m_mass;   // In MeV/c^2 (conceptual example)
+    double       m_charge; // In elementary charge units
+    double       m_spin;   // Spin in ℏ units
+
+    double m_x, m_y, m_z;      // Position
+    double m_px, m_py, m_pz;   // Momentum
+};
+
+//--------------------------------------------------------------------
+// Quark
+class Quark : public Particle {
+public:
+    Quark(QuarkFlavor flavor,
+          double x=0.0, double y=0.0, double z=0.0,
+          double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::QUARK,
+               getMass(flavor),
+               getCharge(flavor),
+               0.5,  // spin 1/2
+               x, y, z, px, py, pz),
+      m_flavor(flavor)
+    { }
+
+    std::string info() const override {
+        return "Quark(" + flavorToString(m_flavor) + ")";
+    }
+
+private:
+    QuarkFlavor m_flavor;
+
+    static double getMass(QuarkFlavor f) {
+        // Approximate quark masses in MeV
+        switch(f) {
+            case QuarkFlavor::UP:      return 2.3;
+            case QuarkFlavor::DOWN:    return 4.8;
+            case QuarkFlavor::CHARM:   return 1275.0;
+            case QuarkFlavor::STRANGE: return 95.0;
+            case QuarkFlavor::TOP:     return 173100.0;
+            case QuarkFlavor::BOTTOM:  return 4180.0;
+        }
+        return 0.0;
+    }
+
+    static double getCharge(QuarkFlavor f) {
+        switch(f) {
+            case QuarkFlavor::UP:
+            case QuarkFlavor::CHARM:
+            case QuarkFlavor::TOP:
+                return +2.0/3.0;
+            case QuarkFlavor::DOWN:
+            case QuarkFlavor::STRANGE:
+            case QuarkFlavor::BOTTOM:
+                return -1.0/3.0;
+        }
+        return 0.0;
+    }
+
+    static std::string flavorToString(QuarkFlavor f) {
+        switch(f) {
+            case QuarkFlavor::UP:      return "Up";
+            case QuarkFlavor::DOWN:    return "Down";
+            case QuarkFlavor::CHARM:   return "Charm";
+            case QuarkFlavor::STRANGE: return "Strange";
+            case QuarkFlavor::TOP:     return "Top";
+            case QuarkFlavor::BOTTOM:  return "Bottom";
+        }
+        return "UnknownQuarkFlavor";
+    }
+};
+
+//--------------------------------------------------------------------
+// Boson
+class Boson : public Particle {
+public:
+    Boson(BosonType bosonType,
+          double x=0.0, double y=0.0, double z=0.0,
+          double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::BOSON,
+               getMass(bosonType),
+               getCharge(bosonType),
+               getSpin(bosonType),
+               x, y, z, px, py, pz),
+      m_bosonType(bosonType)
+    { }
+
+    std::string info() const override {
+        return "Boson(" + bosonToString(m_bosonType) + ")";
+    }
+
+private:
+    BosonType m_bosonType;
+
+    static double getMass(BosonType b) {
+        // Approximate boson masses in MeV
+        switch(b) {
+            case BosonType::PHOTON:   return 0.0;
+            case BosonType::GLUON:    return 0.0;
+            case BosonType::W_PLUS:
+            case BosonType::W_MINUS:  return 80379.0;
+            case BosonType::Z:        return 91187.0;
+            case BosonType::HIGGS:    return 125100.0;
+        }
+        return 0.0;
+    }
+
+    static double getCharge(BosonType b) {
+        switch(b) {
+            case BosonType::PHOTON:  return 0.0;
+            case BosonType::GLUON:   return 0.0;
+            case BosonType::W_PLUS:  return +1.0;
+            case BosonType::W_MINUS: return -1.0;
+            case BosonType::Z:       return 0.0;
+            case BosonType::HIGGS:   return 0.0;
+        }
+        return 0.0;
+    }
+
+    static double getSpin(BosonType b) {
+        switch(b) {
+            case BosonType::PHOTON:
+            case BosonType::GLUON:
+            case BosonType::W_PLUS:
+            case BosonType::W_MINUS:
+            case BosonType::Z:
+                return 1.0;
+            case BosonType::HIGGS:
+                return 0.0;
+        }
+        return 0.0;
+    }
+
+    static std::string bosonToString(BosonType b) {
+        switch(b) {
+            case BosonType::PHOTON:   return "Photon";
+            case BosonType::GLUON:    return "Gluon";
+            case BosonType::W_PLUS:   return "W+";
+            case BosonType::W_MINUS:  return "W-";
+            case BosonType::Z:        return "Z";
+            case BosonType::HIGGS:    return "Higgs";
+        }
+        return "UnknownBoson";
+    }
+};
+
+//--------------------------------------------------------------------
+// Aether
+class Aether : public Particle {
+public:
+    Aether(double x=0.0, double y=0.0, double z=0.0,
+           double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::AETHER,
+               1e-3,
+               0.0,
+               0.0,
+               x, y, z, px, py, pz)
+    { }
+
+    std::string info() const override {
+        return "Aether(DivineParticle)";
+    }
+};
+
+//--------------------------------------------------------------------
+// Electron: a Lepton
+class Electron : public Particle {
+public:
+    Electron(double x=0.0, double y=0.0, double z=0.0,
+             double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::LEPTON,
+               0.511,     // Approximate mass in MeV
+               -1.0,      // Electric charge
+               0.5,       // Spin
+               x, y, z, px, py, pz)
+    { }
+
+    std::string info() const override {
+        return "Electron";
+    }
+};
+
+//--------------------------------------------------------------------
+// Proton: a Baryon
+class Proton : public Particle {
+public:
+    Proton(double x=0.0, double y=0.0, double z=0.0,
+           double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::BARYON,
+               938.272,   // Approximate mass in MeV
+               +1.0,      // Electric charge
+               0.5,       // Spin
+               x, y, z, px, py, pz)
+    { }
+
+    std::string info() const override {
+        return "Proton";
+    }
+};
+
+//--------------------------------------------------------------------
+// Neutron: a Baryon
+class Neutron : public Particle {
+public:
+    Neutron(double x=0.0, double y=0.0, double z=0.0,
+            double px=0.0, double py=0.0, double pz=0.0)
+    : Particle(ParticleType::BARYON,
+               939.565,   // Approximate mass in MeV
+               0.0,       // Neutral
+               0.5,
+               x, y, z, px, py, pz)
+    { }
+
+    std::string info() const override {
+        return "Neutron";
+    }
+};
+
+//--------------------------------------------------------------------
+// 2) Being class -- naive “consciousness” or agent
+//--------------------------------------------------------------------
+class Being {
+public:
+    Being(std::string name, double knowledgeLevel = 0.5)
+        : m_name(name), m_knowledgeLevel(knowledgeLevel)
+    { }
+
+    std::string name() const { return m_name; }
+    double knowledgeLevel() const { return m_knowledgeLevel; }
+
+    void interpretObservations() {
+        if (m_knowledgeLevel < 0.3) {
+            std::cout << "[Being " << m_name << "] is significantly hindered by interpretative biases.\n";
+        } else if (m_knowledgeLevel < 0.7) {
+            std::cout << "[Being " << m_name << "] partially discerns underlying phenomena.\n";
+        } else {
+            std::cout << "[Being " << m_name << "] demonstrates a highly coherent understanding.\n";
+        }
+    }
+
+    void growKnowledge(double amount) {
+        m_knowledgeLevel = clampDouble(m_knowledgeLevel + amount, 0.0, 1.0);
+    }
+
+private:
+    std::string m_name;
+    double      m_knowledgeLevel;
+};
+
+//--------------------------------------------------------------------
+// Tunneling mechanics (barrier, probability, decoherence, etc.)
+//--------------------------------------------------------------------
+struct TunnelingParams {
+    double barrierHeight;
+    double barrierWidth;
+};
+
+class QuantumTunneling {
+public:
+    static bool attemptTunneling(const Particle &p, const TunnelingParams &tp, double decoherenceFactor) {
+        double energy = getParticleEnergy(p);
+
+        // If the particle energy exceeds the barrier height, tunneling occurs trivially
+        if (energy > tp.barrierHeight) {
+            return true;
+        }
+
+        // Probability decays with barrier width, also incorporating a decoherence factor
+        double alpha = 1.0 + decoherenceFactor;
+        double prob = std::exp(-alpha * tp.barrierWidth);
+
+        // Scale probability by the ratio of particle energy to barrier height
+        double ratio = energy / (tp.barrierHeight + 1e-9);
+        double finalProb = prob * ratio;
+
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> dist(0.0, 1.0);
+        double roll = dist(rng);
+
+        return (roll < finalProb);
+    }
+
+private:
+    static double getParticleEnergy(const Particle &p) {
+        // A simplistic kinetic energy approximation: KE = 0.5 * m * v^2
+        double m = p.mass() + 1e-9;
+        double vx = p.px() / m;
+        double vy = p.py() / m;
+        double vz = p.pz() / m;
+        double speedSq = vx*vx + vy*vy + vz*vz;
+        return 0.5 * p.mass() * speedSq;
+    }
+};
+
+//--------------------------------------------------------------------
+// 3) TunnelingField: a discrete grid in each dimension
+//--------------------------------------------------------------------
+class TunnelingField {
+public:
+    TunnelingField(int w, int h)
+    : m_width(w), m_height(h)
+    {
+        // Initialize random barrier and decoherence values
+        m_barrierMap.resize(w*h);
+        m_decoherenceMap.resize(w*h);
+
+        std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> distBarrier(10.0, 80.0);
+        std::uniform_real_distribution<double> distDeco(0.0, 0.5);
+
+        for (int i = 0; i < w*h; ++i) {
+            m_barrierMap[i] = distBarrier(rng);
+            m_decoherenceMap[i] = distDeco(rng);
+        }
+    }
+
+    double localBarrierHeight(int x, int y) const {
+        if (x < 0 || y < 0 || x >= m_width || y >= m_height) return 80.0; 
+        return m_barrierMap[y*m_width + x];
+    }
+    double localDecoherence(int x, int y) const {
+        if (x < 0 || y < 0 || x >= m_width || y >= m_height) return 0.5;
+        return m_decoherenceMap[y*m_width + x];
+    }
+
+    int width() const  { return m_width; }
+    int height() const { return m_height; }
+
+    void evolveField(double dt) {
+        // Example evolution by random fluctuation
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> noise(-1.0,1.0);
+        for (int i = 0; i < m_width*m_height; ++i) {
+            m_barrierMap[i] += noise(rng)*0.1 * dt;
+            m_barrierMap[i] = clampDouble(m_barrierMap[i],10.0,100.0);
+
+            m_decoherenceMap[i] += noise(rng)*0.01 * dt;
+            m_decoherenceMap[i] = clampDouble(m_decoherenceMap[i],0.0,1.0);
+        }
+    }
+
+private:
+    int m_width, m_height;
+    std::vector<double> m_barrierMap;
+    std::vector<double> m_decoherenceMap;
+};
+
+//--------------------------------------------------------------------
+// 4) Dimension class with a TunnelingField
+//--------------------------------------------------------------------
+class Dimension {
+public:
+    Dimension(std::string name, DimState state, double baseEnergyScale, int fieldW=10, int fieldH=10)
+        : m_name(name),
+          m_state(state),
+          m_baseEnergyScale(baseEnergyScale),
+          m_field(fieldW, fieldH)
+    {
+        m_globalParams.barrierHeight = 50.0;
+        m_globalParams.barrierWidth  = 1.0;
+    }
+
+    void setGlobalTunnelingParams(double barrierH, double barrierW) {
+        m_globalParams.barrierHeight = barrierH;
+        m_globalParams.barrierWidth  = barrierW;
+    }
+
+    void addParticle(std::unique_ptr<Particle> p) {
+        m_particles.push_back(std::move(p));
+    }
+    void addBeing(Being b) {
+        m_beings.push_back(b);
+    }
+
+    void step(double dt) {
+        #ifdef _OPENMP
+        #pragma omp parallel for
+        #endif
+        for (int i=0; i<(int)m_particles.size(); ++i) {
+            m_particles[i]->update(dt);
+        }
+
+        // Apply dimension-specific influences
+        switch(m_state) {
+            case DimState::HELL:
+                applyHellEffects(dt);
+                break;
+            case DimState::HEAVEN:
+                applyHeavenEffects(dt);
+                break;
+            case DimState::NORMAL:
+                // Minimal additional effects
+                break;
+            case DimState::PDE_REALM:
+                applyPDERules(dt);
+                break;
+        }
+
+        // Evaluate knowledge changes in Beings
+        evaluateKnowledgeState(dt);
+
+        // Evolve the local TunnelingField
+        m_field.evolveField(dt);
+
+        // Apply localized tunneling
+        applyLocalQuantumTunneling(dt);
+    }
+
+    void printState() const {
+        std::cout << "[Dimension: " << m_name << "] - " << stateToString(m_state)
+                  << ", baseEnergy=" << m_baseEnergyScale << "\n";
+        std::cout << "GlobalBarrier(H="<<m_globalParams.barrierHeight
+                  <<",W="<<m_globalParams.barrierWidth<<")\n";
+        std::cout << "Particles:\n";
+        for (size_t i=0; i<m_particles.size(); ++i) {
+            auto &p = m_particles[i];
+            std::cout << "  #" << i << ": " << p->info()
+                      << " pos=(" << p->x() <<","<< p->y() <<","<< p->z()<<")"
+                      << " p=(" << p->px()<<","<< p->py()<<","<<p->pz()<<")\n";
+        }
+        std::cout << "Beings:\n";
+        for (auto &b : m_beings) {
+            std::cout << "  [Being] " << b.name()
+                      << ", knowledge=" << b.knowledgeLevel()<<"\n";
+        }
+        std::cout << "--------------------------------------\n";
+    }
+
+    // Cross-dimension usage
+    std::unique_ptr<Particle> removeParticleAtIndex(size_t idx) {
+        if (idx >= m_particles.size()) return nullptr;
+        std::unique_ptr<Particle> ret = std::move(m_particles[idx]);
+        m_particles.erase(m_particles.begin()+idx);
+        return ret;
+    }
+    size_t particleCount() const { return m_particles.size(); }
+    size_t beingCount()   const { return m_beings.size(); }
+    std::string name()    const { return m_name; }
+
+private:
+    std::string             m_name;
+    DimState                m_state;
+    double                  m_baseEnergyScale;
+    std::vector<std::unique_ptr<Particle>> m_particles;
+    std::vector<Being>      m_beings;
+
+    TunnelingField          m_field;
+    TunnelingParams         m_globalParams;
+
+    void evaluateKnowledgeState(double dt) {
+        for (auto &b : m_beings) {
+            b.interpretObservations();
+            b.growKnowledge(0.01*dt);
+        }
+    }
+
+    void applyHellEffects(double dt) {
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> dist(-2.0,2.0);
+        #ifdef _OPENMP
+        #pragma omp parallel for
+        #endif
+        for(int i=0; i<(int)m_particles.size(); ++i){
+            double dpx = dist(rng)*dt*m_baseEnergyScale;
+            double dpy = dist(rng)*dt*m_baseEnergyScale;
+            double dpz = dist(rng)*dt*m_baseEnergyScale;
+            m_particles[i]->addMomentum(dpx,dpy,dpz);
+        }
+    }
+
+    void applyHeavenEffects(double dt) {
+        #ifdef _OPENMP
+        #pragma omp parallel for
+        #endif
+        for(int i=0; i<(int)m_particles.size(); ++i){
+            auto &p = m_particles[i];
+            double factor=0.95;
+            double newPx=p->px()*factor;
+            double newPy=p->py()*factor;
+            double newPz=p->pz()*factor;
+            newPx += 0.01*dt; // A small, conceptual offset
+            p->addMomentum(newPx-p->px(), newPy-p->py(), newPz-p->pz());
+        }
+    }
+
+    void applyPDERules(double dt) {
+        // Conceptual PDE influence
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> dist(-0.5,0.5);
+        #ifdef _OPENMP
+        #pragma omp parallel for
+        #endif
+        for(int i=0; i<(int)m_particles.size(); ++i){
+            double wave = dist(rng)*dt*m_baseEnergyScale;
+            m_particles[i]->addMomentum(0, 0, wave);
+        }
+    }
+
+    void applyLocalQuantumTunneling(double /*dt*/) {
+        // Evaluate local field and attempt tunneling
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_int_distribution<int> cDistX(0, m_field.width()-1);
+        std::uniform_int_distribution<int> cDistY(0, m_field.height()-1);
+
+        for (auto &p : m_particles) {
+            int cx = (int)std::floor( (p->x()+50.0)/10.0 );
+            int cy = (int)std::floor( (p->y()+50.0)/10.0 );
+
+            double localBarrier = m_field.localBarrierHeight(cx,cy);
+            double localDeco    = m_field.localDecoherence(cx,cy);
+
+            TunnelingParams combined;
+            combined.barrierHeight = (localBarrier + m_globalParams.barrierHeight)*0.5;
+            combined.barrierWidth  = m_globalParams.barrierWidth;
+
+            bool success = QuantumTunneling::attemptTunneling(*p, combined, localDeco);
+            if(success) {
+                int nx = cDistX(rng);
+                int ny = cDistY(rng);
+                double newX = nx*10.0 - 50.0;
+                double newY = ny*10.0 - 50.0;
+                double newZ = p->z();
+
+                shiftParticle(*p, newX, newY, newZ);
+                std::cout << "[LocalTunnel] " << p->info() << " => new cell("
+                          << nx <<","<<ny<<") pos("<<newX<<","<<newY<<","<<newZ<<")\n";
+            }
+        }
+    }
+
+    // Helper to shift a particle’s position without re-instantiating
+    void shiftParticle(Particle &p, double nx, double ny, double nz) {
+        struct Hack : Particle {
+            using Particle::m_x; using Particle::m_y; using Particle::m_z;
+            Hack(Particle* p) : Particle(*p) {}
+        };
+        Hack* h = reinterpret_cast<Hack*>(&p);
+        h->m_x = nx; h->m_y = ny; h->m_z = nz;
+    }
+
+    static std::string stateToString(DimState s) {
+        switch(s) {
+            case DimState::HEAVEN:    return "HEAVEN";
+            case DimState::HELL:      return "HELL";
+            case DimState::NORMAL:    return "NORMAL";
+            case DimState::PDE_REALM: return "PDE_REALM";
+        }
+        return "UNKNOWN_DIMSTATE";
+    }
+};
+
+//--------------------------------------------------------------------
+// 5) A naive "QuantumCommunication" system for inter-dimensional messaging
+//--------------------------------------------------------------------
+struct QuantumMessage {
+    std::string data;
+    bool        encrypted;
+};
+
+class QuantumCommunication {
+public:
+    static bool sendMessage(Dimension &src, Dimension &dst, const QuantumMessage &msg) {
+        // Simplistic probability-based message sending
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> dist(0.0,1.0);
+
+        double prob = 0.5; // Base probability
+        if (src.name()!=dst.name()) {
+            prob += 0.2; 
+        }
+        double roll = dist(rng);
+        if (roll < prob) {
+            std::cout<<"[QComm] Message delivered from "<<src.name()
+                     <<" to "<<dst.name()<<": \""<<msg.data<<"\"\n";
+            return true;
+        }
+        else {
+            std::cout<<"[QComm] Message FAILED to tunnel from "<<src.name()
+                     <<" to "<<dst.name()<<"\n";
+            return false;
+        }
+    }
+};
+
+//--------------------------------------------------------------------
+// 6) MatrixEngine orchestrates multiple Dimensions
+//--------------------------------------------------------------------
+class MatrixEngine {
+public:
+    MatrixEngine() {
+        eqRepo.setEquation("custom_law","E_new = E_old + PDE_term(...)");
+    }
+
+    Dimension& createDimension(const std::string &name, DimState state,
+                               double baseEnergyScale,
+                               int fieldW=10, int fieldH=10)
+    {
+        m_dimensions.emplace_back(std::make_unique<Dimension>(
+            name, state, baseEnergyScale, fieldW, fieldH
+        ));
+        return *m_dimensions.back();
+    }
+
+    void stepAll(double dt) {
+        #ifdef _OPENMP
+        #pragma omp parallel for
+        #endif
+        for(int i=0; i<(int)m_dimensions.size();++i){
+            m_dimensions[i]->step(dt);
+        }
+        crossDimSynchronicities(dt);
+        eqRepo.simulateEquation("default");
+    }
+
+    void printAllDimensions() const {
+        std::cout << "\n=== MatrixEngine: Multi-Dimension Snapshot ===\n";
+        for(auto &dimPtr: m_dimensions){
+            dimPtr->printState();
+        }
+        std::cout << "=============================================\n";
+    }
+
+    Dimension& getDimension(int i) { return *m_dimensions[i]; }
+    int dimensionCount() const { return (int)m_dimensions.size(); }
+
+private:
+    std::vector<std::unique_ptr<Dimension>> m_dimensions;
+    EquationRepository eqRepo;
+
+    void crossDimSynchronicities(double dt) {
+        // Occasionally shift a random particle between two random Dimensions
+        if(m_dimensions.size()<2)return;
+        static std::mt19937_64 rng(std::random_device{}());
+        std::uniform_real_distribution<double> probDist(0.0,1.0);
+
+        if(probDist(rng)<0.02) {
+            std::uniform_int_distribution<int> idxDist(0,(int)m_dimensions.size()-1);
+            int s=idxDist(rng), d=idxDist(rng);
+            if(d==s && m_dimensions.size()>1) d=(d+1)%m_dimensions.size();
+
+            Dimension &src= *m_dimensions[s];
+            Dimension &dst= *m_dimensions[d];
+
+            if(src.particleCount()>0){
+                std::uniform_int_distribution<int> pDist(0,(int)src.particleCount()-1);
+                int pIdx=pDist(rng);
+                auto p=src.removeParticleAtIndex(pIdx);
+                if(p){
+                    p->addMomentum(0,5.0*dt,0);
+                    dst.addParticle(std::move(p));
+                    std::cout<<"[SYNC] Cross-dimensional shift from "<<src.name()
+                             <<" to "<<dst.name()<<"\n";
+                }
+            }
+        }
+    }
+};
+
+//--------------------------------------------------------------------
+// 7) Demo main: Illustrating the system with additional particle types
+//--------------------------------------------------------------------
+int main(){
+    std::cout<<"=== universe.cpp: Discrete TunnelingField & Basic QuantumCommunication ===\n";
+
+    MatrixEngine engine;
+
+    // Create Dimensions
+    Dimension &dimHeaven = engine.createDimension("Heaven", DimState::HEAVEN, 0.5, 8, 8);
+    Dimension &dimHell   = engine.createDimension("Hell",   DimState::HELL,   2.0,10,10);
+    Dimension &dimEarth  = engine.createDimension("Earth",  DimState::NORMAL, 1.0,12,12);
+
+    // Set global tunneling parameters
+    dimHeaven.setGlobalTunnelingParams(20.0,1.0);
+    dimHell.setGlobalTunnelingParams(90.0,2.5);
+    dimEarth.setGlobalTunnelingParams(50.0,1.0);
+
+    // Populate the dimensions with various Particles and Beings
+    // Heaven
+    dimHeaven.addParticle(std::make_unique<Boson>(BosonType::PHOTON));
+    dimHeaven.addParticle(std::make_unique<Aether>(0.0,0.0,0.0));
+    dimHeaven.addBeing(Being("Angel",0.8));
+
+    // Hell
+    dimHell.addParticle(std::make_unique<Quark>(QuarkFlavor::DOWN,-1.0,0.0,0.0));
+    dimHell.addBeing(Being("Demon",0.2));
+
+    // Earth
+    dimEarth.addParticle(std::make_unique<Quark>(QuarkFlavor::UP,2.0,2.0,0.0));
+    dimEarth.addParticle(std::make_unique<Boson>(BosonType::W_MINUS,1.0,1.0,0.0,2.0,0.0,0.0));
+    dimEarth.addBeing(Being("Human",0.5));
+
+    // Additional: Electrons, Protons, Neutrons
+    dimEarth.addParticle(std::make_unique<Electron>(5.0, 5.0, 0.0));
+    dimEarth.addParticle(std::make_unique<Proton>(-2.0, 3.0, 0.0));
+    dimEarth.addParticle(std::make_unique<Neutron>(-1.0, -4.0, 0.0));
+
+    // Run simulation steps
+    for(int step=0; step<5; ++step){
+        std::cout<<"\nTime Step "<<step<<":\n";
+        engine.printAllDimensions();
+        engine.stepAll(0.1);
+
+        // Attempt quantum communication at step = 2
+        if(step==2){
+            QuantumMessage msg{"Hello from Earth!", true};
+            auto &earth  = engine.getDimension(2); // Earth
+            auto &heaven = engine.getDimension(0); // Heaven
+            QuantumCommunication::sendMessage(earth, heaven, msg);
+        }
+    }
+
+    std::cout<<"=== Simulation end. ===\n";
+    return 0;
+}
