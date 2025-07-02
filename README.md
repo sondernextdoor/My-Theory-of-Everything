@@ -1,4 +1,5 @@
-![Demo GIF](./20250702_1134_Cosmic%20Brain%20Tapestry_simple_compose_01jz5wchr2f3gaa2qa1phs03mr%20(1).gif)
+![Demo GIF](./20250702_1134_Cosmic%20Brain%20Tapestry_simple_compose_01jz5wchr2f3gaa2qa1phs03mr%20(1).gif) ![Demo two GIF](./20250702_1609_Futuristic%20Brain%20Visual_remix_01jz6c4f38eenaeydk4cnytj2z%20(1).gif)
+
 
 The concept I will attempt to convey captures a profound sense of wonder and humility regarding the limits of human understanding and the possible nature of consciousness. It focuses on the subconscious, mathematics, and our connection to a larger cosmic-intelligence. I’ve used ChatGPT 4o to assist, but please keep an open-mind when you read this; ChatGPT is nothing to scoff at when it comes to research/philosophy, even if it cannot comprehend the underlying workings of the subject matter, though admittedly it is not perfect.
 
